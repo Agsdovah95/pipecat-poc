@@ -1,0 +1,24 @@
+[project]
+name = "prediqt-poc-pipecat"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiortc>=1.14.0",
+    "fastmcp>=2.14.1",
+    "langchain-tavily>=0.2.15",
+    "mcp>=1.24.0",
+    "onnxruntime>=1.23.2",
+    "pipecat-ai[cartesia,daily,deepgram,mcp,mem0,runner]>=0.0.97",
+    "python-dotenv>=1.2.1",
+    "ruff>=0.14.9",
+    "tavily-python>=0.7.16",
+    "transformers>=4.57.3",
+    "websockets>=15.0.1",
+    "langsmith",
+    "opentelemetry-exporter-otlp",
+    "pipecat-ai[tracing]",
+    "torch",
+    "torchvision"
+]

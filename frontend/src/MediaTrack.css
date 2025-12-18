@@ -1,0 +1,207 @@
+/* Media Tracks Container */
+.media-tracks-container {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    animation: fade-in-up 0.4s ease-out;
+}
+
+.tracks-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.tracks-icon {
+    font-size: 1rem;
+}
+
+.tracks-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+/* Tracks Grid */
+.tracks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+@media (max-width: 400px) {
+    .tracks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Track Card */
+.track-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.track-card.active {
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+}
+
+.track-card.inactive {
+    opacity: 0.6;
+}
+
+/* Track Header */
+.track-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.track-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.track-indicator.local {
+    background: #06b6d4;
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+}
+
+.track-indicator.bot {
+    background: #a855f7;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+}
+
+.track-card.active .track-indicator::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    animation: pulse-ring 1.5s ease-out infinite;
+}
+
+.track-indicator.local::after {
+    border-color: rgba(6, 182, 212, 0.4);
+}
+
+.track-indicator.bot::after {
+    border-color: rgba(168, 85, 247, 0.4);
+}
+
+.track-name {
+    flex: 1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.track-status {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.track-status.on {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+    animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+.track-status.off {
+    background: rgba(107, 114, 128, 0.2);
+    color: var(--text-muted);
+}
+
+/* Track Details */
+.track-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+}
+
+.track-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-label {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.info-value {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* Level Meter */
+.level-meter-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.level-meter {
+    flex: 1;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.level-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.05s ease-out;
+}
+
+.level-bar.local {
+    background: linear-gradient(90deg, #06b6d4, #22d3ee);
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+
+.level-bar.bot {
+    background: linear-gradient(90deg, #a855f7, #c084fc);
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+}
+
+.level-value {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 30px;
+    text-align: right;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* Animations */
+@keyframes pulse-subtle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
