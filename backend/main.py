@@ -19,7 +19,7 @@ from pipecat.processors.aggregators.llm_response_universal import (
 from pipecat.services.cartesia.tts import CartesiaTTSService
 from pipecat.services.deepgram.stt import DeepgramSTTService, LiveOptions
 from pipecat.services.llm_service import FunctionCallParams
-from pipecat.services.mem0.memory import Mem0MemoryService
+# from pipecat.services.mem0.memory import Mem0MemoryService
 from pipecat.services.openai.llm import OpenAILLMService
 from pipecat.transports.daily.transport import DailyParams, DailyTransport
 from pipecat.transports.daily.utils import (
@@ -36,7 +36,9 @@ from pipecat.audio.turn.smart_turn.local_smart_turn_v3 import LocalSmartTurnAnal
 from pipecat.audio.vad.silero import SileroVADAnalyzer
 from pipecat.audio.vad.vad_analyzer import VADParams
 
-from pipecat.observers.loggers.user_bot_latency_log_observer import UserBotLatencyLogObserver
+# from pipecat.observers.loggers.user_bot_latency_log_observer import UserBotLatencyLogObserver
+
+from datetime import datetime
 
 
 
@@ -142,17 +144,17 @@ async def run_bot(room_url: str, token: str):
         live_options=LiveOptions(model="nova-3-general"),
     )
 
+    llm = OpenAILLMService(api_key=os.environ["OPENAI_API_KEY"], model="gpt-4o-mini")
+
     tts = CartesiaTTSService(
         api_key=os.environ["CARTESIA_API_KEY"],
         voice_id=os.environ["CARTESIA_VOICE_ID"],
     )
 
-    llm = OpenAILLMService(api_key=os.environ["OPENAI_API_KEY"], model="gpt-4o-mini")
-
     messages = [
         {
             "role": "system",
-            "content": """
+            "content": f"""
                 You are Jane, A personal assistant. 
                 answer the user questions to the best of your knowledge,
                 and use the available tools to search the internet about anything you can not answer directly.
@@ -162,6 +164,8 @@ async def run_bot(room_url: str, token: str):
                 Initially introduce yourself to the user and tell briefly what you can do to start the convo
 
                 Do not mention the http urls coming from the tool calling to the user. only share the weather or new itself.
+
+                Current Date Time is: {datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}
             """,
         },
     ]
@@ -173,27 +177,27 @@ async def run_bot(room_url: str, token: str):
     context = LLMContext(messages, tools=tools)
     context_aggregator = LLMContextAggregatorPair(context)
 
-    memory = Mem0MemoryService(
-        api_key=os.environ["MEM0_API_KEY"],
-        user_id="arnab",
-        agent_id="agent1",
-        run_id="session1",
-        params=Mem0MemoryService.InputParams(
-            search_limit=10,
-            search_threshold=0.3,
-            api_version="v2",
-            system_prompt="Based on previous conversations, Here is What I recall: \n\n",
-            add_as_system_message=True,
-            position=1,
-        ),
-    )
+    # memory = Mem0MemoryService(
+    #     api_key=os.environ["MEM0_API_KEY"],
+    #     user_id="arnab",
+    #     agent_id="agent1",
+    #     run_id="session1",
+    #     params=Mem0MemoryService.InputParams(
+    #         search_limit=10,
+    #         search_threshold=0.3,
+    #         api_version="v2",
+    #         system_prompt="Based on previous conversations, Here is What I recall: \n\n",
+    #         add_as_system_message=True,
+    #         position=1,
+    #     ),
+    # )
 
     pipeline = Pipeline(
         [
             transport.input(),
             stt,
             context_aggregator.user(),
-            memory,
+            # memory,
             llm,
             tts,
             transport.output(),
@@ -207,7 +211,7 @@ async def run_bot(room_url: str, token: str):
             allow_interruptions=True,
             enable_metrics=True,
             enable_usage_metrics=True,
-            observers=[UserBotLatencyLogObserver()],
+            # observers=[UserBotLatencyLogObserver()],
         ),
         enable_tracing=True,
         enable_turn_tracking=True,

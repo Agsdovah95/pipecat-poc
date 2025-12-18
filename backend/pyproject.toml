@@ -18,7 +18,5 @@ dependencies = [
     "websockets>=15.0.1",
     "langsmith",
     "opentelemetry-exporter-otlp",
-    "pipecat-ai[tracing]",
-    "torch",
-    "torchvision"
+    "pipecat-ai[tracing]"
 ]

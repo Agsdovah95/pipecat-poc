@@ -22,8 +22,10 @@ ENV UV_NO_DEV=1
 WORKDIR /app
 
 # Install packages
+#RUN uv add torch torchvision
 RUN uv sync
 
+# Expose port for access
 EXPOSE 8765
 
 # Presuming there is a `my_app` command provided by the project
